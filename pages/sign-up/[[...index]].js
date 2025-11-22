@@ -1,15 +1,18 @@
-import { SignUp } from '@clerk/nextjs';
+import { SignUp } from '@clerk/nextjs'
 
 export default function SignUpPage() {
-  return (
-    <div style={{
-      minHeight: '100vh',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-    }}>
-      <SignUp />
-    </div>
-  );
+    return (
+        <div className="flex items-center justify-center min-h-screen">
+            <SignUp
+                appearance={{
+                    elements: {
+                        rootBox: "mx-auto",
+                        card: "bg-white shadow-xl"
+                    }
+                }}
+                afterSignUpUrl="/verify-email"
+                redirectUrl="/dashboard"
+            />
+        </div>
+    )
 }

@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.20.0",
-    "@clerk/nextjs": "^4.29.0",
+    "@clerk/nextjs": "^4.31.8",
     "@supabase/supabase-js": "^2.39.0",
     "lucide-react": "^0.263.1",
     "micro": "^10.0.1",
