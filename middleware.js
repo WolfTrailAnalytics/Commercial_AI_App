@@ -1,12 +1,11 @@
-// middleware.js
-// Protects routes - requires authentication for certain pages
-
 import { authMiddleware } from '@clerk/nextjs';
 
 export default authMiddleware({
     publicRoutes: [
         '/',
         '/pricing',
+        '/sign-in(.*)',
+        '/sign-up(.*)',
         '/api/stripe-webhook',
     ],
 });
