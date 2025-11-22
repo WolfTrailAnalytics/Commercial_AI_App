@@ -91,12 +91,18 @@ export default function App() {
     <div style={styles.container}>
       <div style={styles.header}>
         <h1 style={styles.title}>AI Chat Assistant</h1>
-        <div style={styles.userInfo}>
-          <span>Welcome, {user.firstName || 'User'}!</span>
-          {remainingRequests !== null && (
-            <span style={styles.badge}>{remainingRequests} requests left today</span>
-          )}
-        </div>
+              <div style={styles.userInfo}>
+                  <span>Welcome, {user.firstName || 'User'}!</span>
+                  {remainingRequests !== null && (
+                      <span style={styles.badge}>{remainingRequests} requests left today</span>
+                  )}
+                  <button
+                      onClick={() => window.location.href = '/api/auth/signout'}
+                      style={styles.signOutButton}
+                  >
+                      Sign Out
+                  </button>
+              </div>
       </div>
 
       <div style={styles.chatContainer}>
@@ -215,6 +221,15 @@ const styles = {
     flex: 1,
     overflowY: 'auto',
     padding: '20px',
+  },
+  signOutButton: {
+     padding: '8px 16px',
+     background: 'rgba(255,255,255,0.2)',
+     color: 'white',
+     border: '1px solid rgba(255,255,255,0.3)',
+     borderRadius: '6px',
+     cursor: 'pointer',
+     fontSize: '0.9rem',
   },
   emptyState: {
     textAlign: 'center',
