@@ -1,0 +1,109 @@
+// app/custom-signup/page.tsx
+'use client'
+
+import { useSignUp } from '@clerk/nextjs'
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+
+export default function CustomSignUp() {
+  const { isLoaded, signUp, setActive } = useSignUp()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [verificationCode, setVerificationCode] = useState('')
+  const [pendingVerification, setPendingVerification] = useState(false)
+  const router = useRouter()
+
+  // Handle initial sign-up
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!isLoaded) return
+
+    try {
+      // Create the sign-up
+      await signUp.create({
+        emailAddress: email,
+        password: password,
+      })
+
+      // Send verification email
+      await signUp.prepareEmailAddressVerification({ 
+        strategy: 'email_code' 
+      })
+      
+      // Show verification code input
+      setPendingVerification(true)
+    } catch (err: any) {
+      console.error('Error:', err.errors[0].message)
+    }
+  }
+
+  // Handle verification code
+  const handleVerification = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!isLoaded) return
+
+    try {
+      const completeSignUp = await signUp.attemptEmailAddressVerification({
+        code: verificationCode,
+      })
+
+      if (completeSignUp.status === 'complete') {
+        await setActive({ session: completeSignUp.createdSessionId })
+        router.push('/dashboard')
+      }
+    } catch (err: any) {
+      console.error('Error:', err.errors[0].message)
+    }
+  }
+
+  return (
+    <div className="max-w-md mx-auto mt-8">
+      {!pendingVerification ? (
+        <form onSubmit={handleSubmit}>
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full p-2 border rounded mb-4"
+            required
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full p-2 border rounded mb-4"
+            required
+          />
+          <button 
+            type="submit"
+            className="w-full bg-blue-500 text-white p-2 rounded"
+          >
+            Sign Up
+          </button>
+        </form>
+      ) : (
+        <form onSubmit={handleVerification}>
+          <p className="mb-4">
+            We sent a verification code to {email}
+          </p>
+          <input
+            type="text"
+            placeholder="Enter verification code"
+            value={verificationCode}
+            onChange={(e) => setVerificationCode(e.target.value)}
+            className="w-full p-2 border rounded mb-4"
+            required
+          />
+          <button 
+            type="submit"
+            className="w-full bg-green-500 text-white p-2 rounded"
+          >
+            Verify Email
+          </button>
+        </form>
+      )}
+    </div>
+  )
+}
