@@ -1,6 +1,6 @@
-import { SignUp } from '@clerk/nextjs';
+import { SignIn } from '@clerk/nextjs';
 
-export default function SignUpPage() {
+export default function SignInPage() {
   return (
     <div style={{
       minHeight: '100vh',
@@ -9,11 +9,7 @@ export default function SignUpPage() {
       justifyContent: 'center',
       background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
     }}>
-      <SignUp 
-        redirectUrl="/app"
-        routing="path"
-        path="/sign-up"
-      />
+      <SignIn />
     </div>
   );
 }
