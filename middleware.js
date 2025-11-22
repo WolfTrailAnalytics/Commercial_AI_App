@@ -4,15 +4,13 @@
 import { authMiddleware } from '@clerk/nextjs';
 
 export default authMiddleware({
-  publicRoutes: [
-    '/',
-    '/pricing',
-    '/sign-in(.*)',
-    '/sign-up(.*)',
-    '/api/stripe-webhook',
-  ],
+    publicRoutes: [
+        '/',
+        '/pricing',
+        '/api/stripe-webhook',
+    ],
 });
 
 export const config = {
-  matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],
+    matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],
 };
